@@ -18,7 +18,7 @@ SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 DOWNLOADS_DIR = os.path.join(SCRIPT_DIR, "downloads")
 RAW_IMAGES_DIR = os.path.join(DOWNLOADS_DIR, "raw")
 WHATSAPP_EMOTES_DIR = os.path.join(DOWNLOADS_DIR, "whatsapp")
-CONTENTS_JSON_PATH = os.path.join(WHATSAPP_EMOTES_DIR, "contents.template.json")
+CONTENTS_JSON_PATH = os.path.join(WHATSAPP_EMOTES_DIR, "contents.json")
 
 STICKER_PACK_BASE_METADATA = {
     "identifier": "0",
