@@ -89,6 +89,18 @@ def is_emote_img_tag(tag: Tag) -> bool:
     )
 
 
+def is_emote_preview_img_tag(tag: Tag) -> bool:
+    """Returns whether this `Tag` represents an emote `<img>` tag for a set's preview on the Chat/Gallery page."""
+
+    return is_emote_img_tag(tag) and not tag.has_attr("data-caption")
+
+
+def is_emote_gallery_img_tag(tag: Tag) -> bool:
+    """Returns whether this `Tag` represents an emote `<img>` tag for a gallery image on the Chat/Gallery page."""
+
+    return is_emote_img_tag(tag) and tag.has_attr("data-caption")
+
+
 def original_quality_url(downscaled_url: str) -> str:
     """Gets a URL that points to the original quality image, based on a URL to a downscaled image."""
 
@@ -140,7 +152,7 @@ def query_emote_sets(html: BeautifulSoup) -> dict[int, EmoteSet]:
         set_id = int(set_span_tag.get("id").removeprefix("Set_"))
 
         if set_id not in emote_sets:
-            preview_img_tag = set_span_tag.find(is_emote_img_tag)
+            preview_img_tag = set_span_tag.find(is_emote_preview_img_tag)
             preview_emote_key = preview_img_tag.get("data-image-key")
             emote_sets[set_id] = EmoteSet(set_id, preview_emote_key)
 
@@ -152,7 +164,7 @@ def query_emote_sets(html: BeautifulSoup) -> dict[int, EmoteSet]:
     # The downscaled URL can be retrieved from the 'data-src' attribute
     # We can convert the URL to retrieve the original quality image by using '&format=original'
     emote_img_tag: Tag
-    for emote_img_tag in html.find_all(is_emote_img_tag):
+    for emote_img_tag in html.find_all(is_emote_gallery_img_tag):
         emote_key = emote_img_tag.get("data-image-key")
         set_id = int(
             emote_key.removeprefix("Icon_Emoji_Paimon%27s_Paintings_").split("_", 1)[0]
