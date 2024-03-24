@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup, Tag
 from PIL import Image, ImageOps
 
 CONCURRENT_DOWNLOADS = 4
-CONCURRENT_CONVERSIONS = os.cpu_count()
+CONCURRENT_CONVERSIONS = max(1, os.cpu_count() / 2)
 WHATSAPP_STICKER_SIZE = (512, 512)
 WHATSAPP_STICKER_TRAY_SIZE = (96, 96)
 
