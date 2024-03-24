@@ -1,8 +1,13 @@
 #!/usr/bin/env python
+import concurrent.futures
 import os
+import sys
+import requests
 import urllib.parse
 
 from bs4 import BeautifulSoup, Tag
+
+CONCURRENT_DOWNLOADS = 4
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 DOWNLOADS_DIR = os.path.join(SCRIPT_DIR, "downloads")
@@ -10,9 +15,6 @@ RAW_IMAGES_DIR = os.path.join(DOWNLOADS_DIR, "raw")
 WHATSAPP_EMOTES_DIR = os.path.join(DOWNLOADS_DIR, "whatsapp")
 
 # TODO: Temporary filepaths to local assets - won't be necessary when real Wiki is used
-HTML_CHAT_GALLERY_LOCAL = os.path.join(
-    SCRIPT_DIR, "assets", "Chat_Gallery Genshin Impact Wiki Fandom.htm"
-)
 RAIDEN_EMOTE_LOCAL = os.path.join(
     SCRIPT_DIR, "assets", "Icon_Emoji_Paimon's_Paintings_29_Raiden_Shogun_2.png"
 )
@@ -24,16 +26,21 @@ class Emote:
     """Holds the information for a chat emote on the Fandom Wiki."""
 
     key: str
+    set_id: int
     download_url: str
     filename: str
 
-    def __init__(self, key: str, download_url: str) -> None:
+    def __init__(self, key: str, set_id: int, download_url: str) -> None:
         self.key = key
+        self.set_id = set_id
         self.download_url = download_url
         self.filename = urllib.parse.unquote(self.key)
 
     def __repr__(self) -> str:
-        return f"Emote [key='{self.key}', download_url='{self.download_url}', filename='{self.filename}']"
+        return f"Emote [key='{self.key}', set_id={self.set_id}, download_url='{self.download_url}', filename='{self.filename}']"
+
+    def filepath(self, base_dir: str) -> str:
+        return os.path.join(base_dir, str(self.set_id), self.filename)
 
 
 class EmoteSet:
@@ -51,13 +58,15 @@ class EmoteSet:
     def __repr__(self) -> str:
         return f"EmoteSet [id={self.id}, preview_emote_key='{self.preview_emote_key}', emotes={self.emotes}]"
 
+    def folderpath(self, base_dir: str) -> str:
+        return os.path.join(base_dir, str(self.id))
+
 
 def retrieve_gallery_page() -> BeautifulSoup | None:
     """Retrieves the HTML contents of the Chat/Gallery page on the Fandom Wiki as a `BeautifulSoup` instance."""
 
-    # TODO: When the code is more polished, change this to query the real Fandom Wiki
-    with open(HTML_CHAT_GALLERY_LOCAL, "rb") as file:
-        return BeautifulSoup(file, features="html5lib")
+    gallery_request = requests.get(URL_CHAT_GALLERY)
+    return BeautifulSoup(gallery_request.content, features="html5lib")
 
 
 def is_set_span_tag(tag: Tag) -> bool:
@@ -85,6 +94,35 @@ def original_quality_url(downscaled_url: str) -> str:
 
     base_url = downscaled_url.split("/revision", 1)[0]
     return f"{base_url}/revision/latest?format=original"
+
+
+def download_emote(emote: Emote, replace: bool = False):
+    """
+    Downloads the original quality image for an emote into the downloads folder.
+    The image is only downloaded if it isn't already present or the `replace` parameter is `True`.
+    """
+
+    img_filepath = emote.filepath(RAW_IMAGES_DIR)
+    if not replace and os.path.exists(img_filepath):
+        print(f"Skipping '{emote.filename}'; already downloaded")
+        return
+
+    try:
+        print(f"Downloading '{emote.filename}'...")
+
+        with open(img_filepath, "wb") as img_file:
+            img_request = requests.get(emote.download_url)
+            img_file.write(img_request.content)
+
+        print(f"Downloaded '{emote.filename}'")
+    except Exception as e:
+        print(f"Unable to download {emote.filename}:", e)
+
+        # Try to delete any partially downloaded contents, so we can try again later
+        try:
+            os.remove(img_filepath)
+        except Exception:
+            pass
 
 
 def query_emote_sets(html: BeautifulSoup) -> dict[int, EmoteSet]:
@@ -123,16 +161,26 @@ def query_emote_sets(html: BeautifulSoup) -> dict[int, EmoteSet]:
 
         if emote_key not in emote_set.emotes:
             download_url = original_quality_url(emote_img_tag.get("data-src"))
-            emote_set.emotes[emote_key] = Emote(emote_key, download_url)
+            emote_set.emotes[emote_key] = Emote(emote_key, set_id, download_url)
 
     return emote_sets
 
 
 def main():
+    replace = "--replace" in sys.argv
+
     html = retrieve_gallery_page()
     emote_sets = query_emote_sets(html)
 
-    print(emote_sets[1])
+    print(f"Found {len(emote_sets)} emote sets")
+
+    with concurrent.futures.ThreadPoolExecutor(CONCURRENT_DOWNLOADS) as executor:
+        for emote_set in emote_sets.values():
+            os.makedirs(emote_set.folderpath(RAW_IMAGES_DIR), exist_ok=True)
+            os.makedirs(emote_set.folderpath(WHATSAPP_EMOTES_DIR), exist_ok=True)
+
+            for emote in emote_set.emotes.values():
+                executor.submit(download_emote, emote, replace)
 
 
 if __name__ == "__main__":
