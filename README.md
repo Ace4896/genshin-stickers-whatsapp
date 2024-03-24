@@ -25,3 +25,9 @@ python3 ./genshin_emote_downloader.py [--refresh]
 Arguments:
 
 - `--refresh`: Refreshes all locally downloaded images
+
+## License
+
+The code in this repository is licensed under [MIT](./LICENSE).
+
+The chat emotes downloaded by this script are copyrighted to HoYoverse. This is a fan project which has no affiliation with HoYoverse.
