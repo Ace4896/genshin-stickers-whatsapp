@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import concurrent.futures
+import json
 import os
 import sys
 import requests
@@ -17,6 +18,20 @@ SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 DOWNLOADS_DIR = os.path.join(SCRIPT_DIR, "downloads")
 RAW_IMAGES_DIR = os.path.join(DOWNLOADS_DIR, "raw")
 WHATSAPP_EMOTES_DIR = os.path.join(DOWNLOADS_DIR, "whatsapp")
+CONTENTS_JSON_PATH = os.path.join(WHATSAPP_EMOTES_DIR, "contents.template.json")
+
+STICKER_PACK_BASE_METADATA = {
+    "identifier": "0",
+    "name": "Genshin Impact (Set 0)",
+    "publisher": "Ace4896",
+    "tray_image_file": "tray.webp",
+    "image_data_version": "1",
+    "avoid_cache": False,
+    "publisher_email": "",
+    "publisher_website": "",
+    "privacy_policy_website": "",
+    "license_agreement_website": "",
+}
 
 URL_CHAT_GALLERY = "https://genshin-impact.fandom.com/wiki/Chat/Gallery#Emojis"
 
@@ -59,6 +74,9 @@ class EmoteSet:
 
     def folderpath(self, base_dir: str) -> str:
         return os.path.join(base_dir, str(self.id))
+
+    def sticker_pack_name(self):
+        return f"Genshin Impact (Set {self.id})"
 
 
 def retrieve_gallery_page() -> BeautifulSoup | None:
@@ -230,6 +248,42 @@ def convert_to_whatsapp_sticker(
             pass
 
 
+def generate_whatsapp_contents_json(emote_sets: dict[int, EmoteSet]):
+    """Generates a WhatsApp `contents.json` file from the provided `EmoteSet`s."""
+
+    print("Generating WhatsApp contents.json...")
+
+    sticker_packs = []
+    for emote_set in emote_sets.values():
+        sticker_pack = dict(STICKER_PACK_BASE_METADATA)
+        sticker_pack["identifier"] = str(emote_set.id)
+        sticker_pack["name"] = emote_set.sticker_pack_name()
+
+        stickers = []
+        for emote in emote_set.emotes.values():
+            stickers.append(
+                {
+                    "image_file": emote.filename.replace(".png", ".webp"),
+                    "emojis": ["👋"],
+                }
+            )
+
+        sticker_pack["stickers"] = stickers
+
+        sticker_packs.append(sticker_pack)
+
+    contents_metadata = {
+        "android_play_store_link": "",
+        "ios_app_store_link": "",
+        "sticker_packs": sticker_packs,
+    }
+
+    with open(CONTENTS_JSON_PATH, "wt") as contents_file:
+        json.dump(contents_metadata, contents_file, indent=2)
+
+    print("Generated WhatsApp contents.json")
+
+
 def main():
     replace = "--replace" in sys.argv
 
@@ -254,6 +308,8 @@ def main():
                 executor.submit(
                     convert_to_whatsapp_sticker, emote, generate_tray_image, replace
                 )
+
+    generate_whatsapp_contents_json(emote_sets)
 
 
 if __name__ == "__main__":
