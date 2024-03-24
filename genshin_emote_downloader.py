@@ -6,18 +6,17 @@ import requests
 import urllib.parse
 
 from bs4 import BeautifulSoup, Tag
+from PIL import Image, ImageOps
 
 CONCURRENT_DOWNLOADS = 4
+CONCURRENT_CONVERSIONS = os.cpu_count()
+WHATSAPP_STICKER_SIZE = (512, 512)
+WHATSAPP_STICKER_PREVIEW_SIZE = (96, 96)
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 DOWNLOADS_DIR = os.path.join(SCRIPT_DIR, "downloads")
 RAW_IMAGES_DIR = os.path.join(DOWNLOADS_DIR, "raw")
 WHATSAPP_EMOTES_DIR = os.path.join(DOWNLOADS_DIR, "whatsapp")
-
-# TODO: Temporary filepaths to local assets - won't be necessary when real Wiki is used
-RAIDEN_EMOTE_LOCAL = os.path.join(
-    SCRIPT_DIR, "assets", "Icon_Emoji_Paimon's_Paintings_29_Raiden_Shogun_2.png"
-)
 
 URL_CHAT_GALLERY = "https://genshin-impact.fandom.com/wiki/Chat/Gallery#Emojis"
 
@@ -178,6 +177,59 @@ def query_emote_sets(html: BeautifulSoup) -> dict[int, EmoteSet]:
     return emote_sets
 
 
+def convert_to_whatsapp_sticker(
+    emote: Emote, generate_preview: bool = False, replace: bool = False
+):
+    """
+    Converts the raw quality emote to a WhatsApp sticker.
+    The final image will be a 512x512 WebP file (96x96 for preview variants).
+    """
+
+    base_path = emote.filepath(WHATSAPP_EMOTES_DIR)
+    sticker_image_path = base_path.replace(".png", ".webp")
+    preview_image_path = base_path.replace(emote.filename, "preview.webp")
+
+    if (
+        not replace
+        and os.path.exists(sticker_image_path)
+        and (not generate_preview or os.path.exists(preview_image_path))
+    ):
+        print(f"Skipping '{emote.filename}'; already converted into WhatsApp sticker")
+        return
+
+    try:
+        print(f"Converting '{emote.filename}' into WhatsApp sticker...")
+        with Image.open(emote.filepath(RAW_IMAGES_DIR)) as image:
+            sticker_image = ImageOps.pad(
+                image,
+                WHATSAPP_STICKER_SIZE,
+                Image.Resampling.LANCZOS,
+                (255, 255, 255, 0),
+            )
+
+            sticker_image.save(sticker_image_path, "webp", quality=80, method=6)
+            print(f"Converted '{emote.filename}' into WhatsApp sticker")
+
+            if generate_preview:
+                print(f"Converting '{emote.filename}' into WhatsApp preview sticker...")
+                preview_image = sticker_image.resize(
+                    WHATSAPP_STICKER_PREVIEW_SIZE, Image.Resampling.LANCZOS
+                )
+
+                preview_image.save(preview_image_path, "webp", quality=80, method=6)
+                print(f"Converted '{emote.filename}' into WhatsApp preview sticker...")
+
+    except Exception as e:
+        print(f"Unable to convert '{emote.filename}' to WhatsApp sticker", e)
+
+        # Try to delete any partially downloaded contents, so we can try again later
+        try:
+            os.remove(sticker_image_path)
+            os.remove(preview_image_path)
+        except Exception:
+            pass
+
+
 def main():
     replace = "--replace" in sys.argv
 
@@ -189,10 +241,19 @@ def main():
     with concurrent.futures.ThreadPoolExecutor(CONCURRENT_DOWNLOADS) as executor:
         for emote_set in emote_sets.values():
             os.makedirs(emote_set.folderpath(RAW_IMAGES_DIR), exist_ok=True)
-            os.makedirs(emote_set.folderpath(WHATSAPP_EMOTES_DIR), exist_ok=True)
 
             for emote in emote_set.emotes.values():
                 executor.submit(download_emote, emote, replace)
+
+    with concurrent.futures.ThreadPoolExecutor(CONCURRENT_CONVERSIONS) as executor:
+        for emote_set in emote_sets.values():
+            os.makedirs(emote_set.folderpath(WHATSAPP_EMOTES_DIR), exist_ok=True)
+
+            for emote in emote_set.emotes.values():
+                generate_preview = emote_set.preview_emote_key == emote.key
+                executor.submit(
+                    convert_to_whatsapp_sticker, emote, generate_preview, replace
+                )
 
 
 if __name__ == "__main__":
