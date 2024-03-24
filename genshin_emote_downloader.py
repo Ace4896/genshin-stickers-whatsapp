@@ -11,7 +11,7 @@ from PIL import Image, ImageOps
 CONCURRENT_DOWNLOADS = 4
 CONCURRENT_CONVERSIONS = os.cpu_count()
 WHATSAPP_STICKER_SIZE = (512, 512)
-WHATSAPP_STICKER_PREVIEW_SIZE = (96, 96)
+WHATSAPP_STICKER_TRAY_SIZE = (96, 96)
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 DOWNLOADS_DIR = os.path.join(SCRIPT_DIR, "downloads")
@@ -46,16 +46,16 @@ class EmoteSet:
     """Represents a collection of chat emotes."""
 
     id: int
-    preview_emote_key: str | None
+    tray_emote_key: str | None
     emotes: dict[str, Emote]
 
-    def __init__(self, id: int, preview_emote_key: str | None = None) -> None:
+    def __init__(self, id: int, tray_emote_key: str | None = None) -> None:
         self.id = id
-        self.preview_emote_key = preview_emote_key
+        self.tray_emote_key = tray_emote_key
         self.emotes = {}
 
     def __repr__(self) -> str:
-        return f"EmoteSet [id={self.id}, preview_emote_key='{self.preview_emote_key}', emotes={self.emotes}]"
+        return f"EmoteSet [id={self.id}, tray_emote_key='{self.tray_emote_key}', emotes={self.emotes}]"
 
     def folderpath(self, base_dir: str) -> str:
         return os.path.join(base_dir, str(self.id))
@@ -88,8 +88,8 @@ def is_emote_img_tag(tag: Tag) -> bool:
     )
 
 
-def is_emote_preview_img_tag(tag: Tag) -> bool:
-    """Returns whether this `Tag` represents an emote `<img>` tag for a set's preview on the Chat/Gallery page."""
+def is_emote_tray_img_tag(tag: Tag) -> bool:
+    """Returns whether this `Tag` represents an emote `<img>` tag for a set's tray image on the Chat/Gallery page."""
 
     return is_emote_img_tag(tag) and not tag.has_attr("data-caption")
 
@@ -143,7 +143,7 @@ def query_emote_sets(html: BeautifulSoup) -> dict[int, EmoteSet]:
     # On the gallery page, there are various "Set N" headings, represented by a <span> tag:
     # <span id="Set_X" class="mw-headline">
     #
-    # It also has an inner <img> tag - the 'data-image-key' attribute determines which one should be used for the preview
+    # It also has an inner <img> tag - the 'data-image-key' attribute determines which one should be used for the tray image
     emote_sets: dict[int, EmoteSet] = {}
 
     set_span_tag: Tag
@@ -151,9 +151,9 @@ def query_emote_sets(html: BeautifulSoup) -> dict[int, EmoteSet]:
         set_id = int(set_span_tag.get("id").removeprefix("Set_"))
 
         if set_id not in emote_sets:
-            preview_img_tag = set_span_tag.find(is_emote_preview_img_tag)
-            preview_emote_key = preview_img_tag.get("data-image-key")
-            emote_sets[set_id] = EmoteSet(set_id, preview_emote_key)
+            tray_img_tag = set_span_tag.find(is_emote_tray_img_tag)
+            tray_emote_key = tray_img_tag.get("data-image-key")
+            emote_sets[set_id] = EmoteSet(set_id, tray_emote_key)
 
     # Query which emotes are present and add them to a set
     # On the gallery page, the relevant information can be found in <img> tags, where the 'data-image-key' attribute has this prefix:
@@ -178,21 +178,21 @@ def query_emote_sets(html: BeautifulSoup) -> dict[int, EmoteSet]:
 
 
 def convert_to_whatsapp_sticker(
-    emote: Emote, generate_preview: bool = False, replace: bool = False
+    emote: Emote, generate_tray_image: bool = False, replace: bool = False
 ):
     """
     Converts the raw quality emote to a WhatsApp sticker.
-    The final image will be a 512x512 WebP file (96x96 for preview variants).
+    The final image will be a 512x512 WebP file (96x96 for tray variants).
     """
 
     base_path = emote.filepath(WHATSAPP_EMOTES_DIR)
     sticker_image_path = base_path.replace(".png", ".webp")
-    preview_image_path = base_path.replace(emote.filename, "preview.webp")
+    tray_image_path = base_path.replace(emote.filename, "tray.webp")
 
     if (
         not replace
         and os.path.exists(sticker_image_path)
-        and (not generate_preview or os.path.exists(preview_image_path))
+        and (not generate_tray_image or os.path.exists(tray_image_path))
     ):
         print(f"Skipping '{emote.filename}'; already converted into WhatsApp sticker")
         return
@@ -210,14 +210,14 @@ def convert_to_whatsapp_sticker(
             sticker_image.save(sticker_image_path, "webp", quality=80, method=6)
             print(f"Converted '{emote.filename}' into WhatsApp sticker")
 
-            if generate_preview:
-                print(f"Converting '{emote.filename}' into WhatsApp preview sticker...")
-                preview_image = sticker_image.resize(
-                    WHATSAPP_STICKER_PREVIEW_SIZE, Image.Resampling.LANCZOS
+            if generate_tray_image:
+                print(f"Converting '{emote.filename}' into WhatsApp tray sticker...")
+                tray_image = sticker_image.resize(
+                    WHATSAPP_STICKER_TRAY_SIZE, Image.Resampling.LANCZOS
                 )
 
-                preview_image.save(preview_image_path, "webp", quality=80, method=6)
-                print(f"Converted '{emote.filename}' into WhatsApp preview sticker...")
+                tray_image.save(tray_image_path, "webp", quality=80, method=6)
+                print(f"Converted '{emote.filename}' into WhatsApp tray sticker...")
 
     except Exception as e:
         print(f"Unable to convert '{emote.filename}' to WhatsApp sticker", e)
@@ -225,7 +225,7 @@ def convert_to_whatsapp_sticker(
         # Try to delete any partially downloaded contents, so we can try again later
         try:
             os.remove(sticker_image_path)
-            os.remove(preview_image_path)
+            os.remove(tray_image_path)
         except Exception:
             pass
 
@@ -250,9 +250,9 @@ def main():
             os.makedirs(emote_set.folderpath(WHATSAPP_EMOTES_DIR), exist_ok=True)
 
             for emote in emote_set.emotes.values():
-                generate_preview = emote_set.preview_emote_key == emote.key
+                generate_tray_image = emote_set.tray_emote_key == emote.key
                 executor.submit(
-                    convert_to_whatsapp_sticker, emote, generate_preview, replace
+                    convert_to_whatsapp_sticker, emote, generate_tray_image, replace
                 )
 
 
