@@ -1,4 +1,4 @@
-# Genshin Chat Emotes for WhatsApp
+# Genshin Chat Emotes
 
 An Android app which provides Genshin's official chat emotes for WhatsApp.
 
@@ -13,6 +13,8 @@ An Android app which provides Genshin's official chat emotes for WhatsApp.
 
 ## License
 
-The code for the Android app and the downloader script are licensed under [MIT](./LICENSE).
+The downloader script is licensed under [MIT](./LICENSE).
+
+The original code for the Android app is based on [WhatsApp/stickers](https://github.com/WhatsApp/stickers), which is licensed under [BSD](https://github.com/WhatsApp/stickers/blob/main/LICENSE).
 
 The chat emotes used for the stickers are copyrighted to HoYoverse. This is a fan project which has no affiliation with HoYoverse.
