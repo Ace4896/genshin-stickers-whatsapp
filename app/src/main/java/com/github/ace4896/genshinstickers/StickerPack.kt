@@ -11,7 +11,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
 
-internal class StickerPack : Parcelable {
+class StickerPack : Parcelable {
     @JvmField
     val identifier: String?
 

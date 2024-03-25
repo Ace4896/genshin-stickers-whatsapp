@@ -13,7 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-internal class StickerPackListItemViewHolder(@JvmField val container: View) :
+class StickerPackListItemViewHolder(@JvmField val container: View) :
     RecyclerView.ViewHolder(
         container
     ) {

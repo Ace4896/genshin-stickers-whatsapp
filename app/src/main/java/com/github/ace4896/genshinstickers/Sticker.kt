@@ -11,7 +11,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
 
-internal class Sticker : Parcelable {
+class Sticker : Parcelable {
     @JvmField
     val imageFileName: String?
 
