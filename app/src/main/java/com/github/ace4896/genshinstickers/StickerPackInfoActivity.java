@@ -24,8 +24,6 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.core.view.ViewCompat;
 
-import com.github.ace4896.genshinstickers.R;
-
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 

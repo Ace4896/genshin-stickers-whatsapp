@@ -19,8 +19,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.github.ace4896.genshinstickers.R;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
