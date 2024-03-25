@@ -21,7 +21,7 @@ import com.github.ace4896.genshinstickers.StickerPackLoader.getStickerAssetUri
 import kotlin.math.min
 
 class StickerPackListAdapter internal constructor(
-    private var stickerPacks: List<StickerPack>,
+    private var stickerPacks: List<StickerPack?>,
     private val onAddButtonClickedListener: OnAddButtonClickedListener
 ) : RecyclerView.Adapter<StickerPackListItemViewHolder>() {
     private var maxNumberOfStickersInARow = 0
@@ -37,7 +37,7 @@ class StickerPackListAdapter internal constructor(
     override fun onBindViewHolder(viewHolder: StickerPackListItemViewHolder, index: Int) {
         val pack = stickerPacks[index]
         val context = viewHolder.publisherView.context
-        viewHolder.publisherView.text = pack.publisher
+        viewHolder.publisherView.text = pack!!.publisher
         viewHolder.filesizeView.text = Formatter.formatShortFileSize(context, pack.totalSize)
         viewHolder.titleView.text = pack.name
         viewHolder.container.setOnClickListener { view: View ->
@@ -115,7 +115,7 @@ class StickerPackListAdapter internal constructor(
         }
     }
 
-    fun setStickerPackList(stickerPackList: List<StickerPack>) {
+    fun setStickerPackList(stickerPackList: List<StickerPack?>) {
         stickerPacks = stickerPackList
     }
 
