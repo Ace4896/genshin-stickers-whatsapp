@@ -1,15 +1,17 @@
-# Genshin Chat Emotes
+# Genshin Impact Stickers for WhatsApp
 
-An Android app which provides Genshin's official chat emotes for WhatsApp.
+An Android app which packages Genshin Impact's official chat emotes as WhatsApp stickers.
 
 ## Requirements
 
 - Android Studio
-- Python 3.12 (for downloading emotes)
+- Python 3.12 (for downloading chat emotes)
 
 ## Usage
 
-**WIP**
+**APK Installation WIP** - for now, you'll have to install it via Android Studio and enabling debugging on your device
+
+Once the app is installed, open it and add the sticker packs you want to use.
 
 ## License
 
