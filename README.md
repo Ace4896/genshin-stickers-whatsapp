@@ -15,7 +15,7 @@ Once the app is installed, open it and add the sticker packs you want to use.
 
 ## License
 
-The downloader script is licensed under [MIT](./LICENSE).
+The downloader script is licensed under [MIT](./downloader/LICENSE).
 
 The original code for the Android app is based on [WhatsApp/stickers](https://github.com/WhatsApp/stickers), which is licensed under [BSD](https://github.com/WhatsApp/stickers/blob/main/LICENSE). It has been translated from Java to Kotlin.
 
