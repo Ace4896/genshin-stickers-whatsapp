@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.example.samplestickerapp;
+package com.github.ace4896.genshinstickers;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.github.ace4896.genshinstickers.R;
 
 class StickerPackListItemViewHolder extends RecyclerView.ViewHolder {
 

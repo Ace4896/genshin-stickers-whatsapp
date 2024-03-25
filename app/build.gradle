@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace 'com.example.samplestickerapp'
+    namespace 'com.github.ace4896.genshinstickers'
     defaultConfig {
-        applicationId "com.example.samplestickerapp"
+        applicationId "com.github.ace4896.genshinstickers"
         compileSdk 34
         minSdkVersion 21
         targetSdkVersion 34
