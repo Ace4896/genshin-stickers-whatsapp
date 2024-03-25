@@ -106,7 +106,7 @@ public class StickerPackListActivity extends AddStickerPackActivity {
                 return Arrays.asList(stickerPackArray);
             }
             for (StickerPack stickerPack : stickerPackArray) {
-                stickerPack.setIsWhitelisted(WhitelistCheck.isWhitelisted(stickerPackListActivity, stickerPack.identifier));
+                stickerPack.isWhitelisted = WhitelistCheck.isWhitelisted(stickerPackListActivity, stickerPack.identifier);
             }
             return Arrays.asList(stickerPackArray);
         }
