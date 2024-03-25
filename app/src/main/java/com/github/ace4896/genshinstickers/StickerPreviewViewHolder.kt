@@ -11,7 +11,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.drawee.view.SimpleDraweeView
 
-internal class StickerPreviewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class StickerPreviewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     @JvmField
     val stickerPreviewView: SimpleDraweeView = itemView.findViewById(R.id.sticker_preview)
 }
