@@ -94,7 +94,7 @@ internal object StickerPackLoader {
             val privacyPolicyWebsite =
                 cursor.getString(cursor.getColumnIndexOrThrow(StickerContentProvider.PRIVACY_POLICY_WEBSITE))
             val licenseAgreementWebsite =
-                cursor.getString(cursor.getColumnIndexOrThrow(StickerContentProvider.LICENSE_AGREENMENT_WEBSITE))
+                cursor.getString(cursor.getColumnIndexOrThrow(StickerContentProvider.LICENSE_AGREEMENT_WEBSITE))
             val imageDataVersion =
                 cursor.getString(cursor.getColumnIndexOrThrow(StickerContentProvider.IMAGE_DATA_VERSION))
             val avoidCache =
