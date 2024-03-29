@@ -55,7 +55,7 @@ internal object StickerPackLoader {
                     stickerPack.identifier!!, sticker!!.imageFileName!!, context.contentResolver
                 )
                 check(bytes.isNotEmpty()) { "Asset file is empty, pack: " + stickerPack.name + ", sticker: " + sticker.imageFileName }
-                sticker.setSize(bytes.size.toLong())
+                sticker.size = bytes.size.toLong()
             } catch (e: IOException) {
                 throw IllegalStateException(
                     "Asset file doesn't exist. pack: " + stickerPack.name + ", sticker: " + sticker!!.imageFileName,

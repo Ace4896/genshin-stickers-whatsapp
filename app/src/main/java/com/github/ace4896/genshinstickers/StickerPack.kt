@@ -10,6 +10,7 @@ package com.github.ace4896.genshinstickers
 import android.os.Parcel
 import android.os.Parcelable
 import android.os.Parcelable.Creator
+import kotlinx.parcelize.parcelableCreator
 
 class StickerPack : Parcelable {
     @JvmField
@@ -94,7 +95,7 @@ class StickerPack : Parcelable {
         privacyPolicyWebsite = `in`.readString()
         licenseAgreementWebsite = `in`.readString()
         iosAppStoreLink = `in`.readString()
-        stickers = `in`.createTypedArrayList(Sticker.CREATOR)
+        stickers = `in`.createTypedArrayList(parcelableCreator<Sticker>())
         totalSize = `in`.readLong()
         androidPlayStoreLink = `in`.readString()
         isWhitelisted = `in`.readByte().toInt() != 0
