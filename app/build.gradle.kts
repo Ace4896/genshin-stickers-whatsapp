@@ -57,6 +57,10 @@ android {
         jniLibs {
             excludes += arrayOf("lib/*/libnative-imagetranscoder.so", "lib/*/libnative-filters.so")
         }
+
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 
     // Compression of webp files during build causes problems with FileDescriptor in ContentProvider
