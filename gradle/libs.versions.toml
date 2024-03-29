@@ -1,8 +1,10 @@
 [versions]
+agp = "8.3.1"
 appcompat = "1.6.1"
 constraintlayout = "2.1.4"
 coreKtx = "1.12.0"
 fresco = "3.1.3"
+kotlin = "1.9.23"
 material = "1.11.0"
 recyclerview = "1.3.2"
 
@@ -18,3 +20,6 @@ fresco-webpsupport = { module = "com.facebook.fresco:webpsupport", version.ref =
 google-android-material = { module = "com.google.android.material:material", version.ref = "material" }
 
 [plugins]
+#android-application = { module = "com.android.application", version.ref = "agp" }
+#jetbrains-kotlin-android = { module = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+#jetbrains-kotlin-parcelize = { module = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }

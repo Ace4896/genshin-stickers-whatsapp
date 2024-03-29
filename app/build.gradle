@@ -1,61 +1,60 @@
-apply plugin: 'com.android.application'
-apply plugin: 'org.jetbrains.kotlin.android'
-apply plugin: 'kotlin-parcelize'
+apply(plugin: "com.android.application")
+apply(plugin: "org.jetbrains.kotlin.android")
+apply(plugin: "kotlin-parcelize")
 
 android {
-    namespace 'com.github.ace4896.genshinstickers'
+    namespace = "com.github.ace4896.genshinstickers"
+    compileSdk = 34
+
     defaultConfig {
-        applicationId "com.github.ace4896.genshinstickers"
-        compileSdk 34
-        minSdkVersion 21
-        targetSdkVersion 34
-        versionCode 1
-        versionName "1.0"
+        applicationId = "com.github.ace4896.genshinstickers"
+        minSdk = 21
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
 
         // Setup content provider authority in manifest and BuildConfig
         def contentProviderAuthority = applicationId + ".stickercontentprovider"
         manifestPlaceholders = [contentProviderAuthority: contentProviderAuthority]
-        buildConfigField("String",
-                "CONTENT_PROVIDER_AUTHORITY",
-                "\"${contentProviderAuthority}\"")
+        buildConfigField("String", "CONTENT_PROVIDER_AUTHORITY", "\"${contentProviderAuthority}\"")
     }
 
     buildTypes {
         debug {
-            minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled = false
+            shrinkResources = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
         release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled = true
+            shrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "1.8"
     }
 
     packagingOptions {
         jniLibs {
-            excludes += ['lib/*/libnative-imagetranscoder.so', 'lib/*/libnative-filters.so']
+            excludes += ["lib/*/libnative-imagetranscoder.so", "lib/*/libnative-filters.so"]
         }
     }
 
     // Compression of webp files during build causes problems with FileDescriptor in ContentProvider
     androidResources {
-        noCompress += ['webp']
+        noCompress += ["webp"]
     }
 }
 
 dependencies {
-    implementation(fileTree(include: ['*.jar'], dir: 'libs'))
+    implementation(fileTree(include: ["*.jar"], dir: "libs"))
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
