@@ -57,8 +57,8 @@ internal object ContentFileParser {
         reader.endObject()
         check(stickerPackList.size != 0) { "sticker pack list cannot be empty" }
         for (stickerPack in stickerPackList) {
-            stickerPack.setAndroidPlayStoreLink(androidPlayStoreLink)
-            stickerPack.setIosAppStoreLink(iosAppStoreLink)
+            stickerPack.androidPlayStoreLink = androidPlayStoreLink ?: ""
+            stickerPack.iosAppStoreLink = iosAppStoreLink ?: ""
         }
         return stickerPackList
     }
@@ -77,7 +77,7 @@ internal object ContentFileParser {
         var imageDataVersion: String? = ""
         var avoidCache = false
         var animatedStickerPack = false
-        var stickerList: List<Sticker?>? = null
+        var stickerList: List<Sticker>? = null
         while (reader.hasNext()) {
             val key = reader.nextName()
             when (key) {
@@ -117,14 +117,14 @@ internal object ContentFileParser {
             avoidCache,
             animatedStickerPack
         )
-        stickerPack.setStickers(stickerList)
+        stickerPack.stickers = stickerList
         return stickerPack
     }
 
     @Throws(IOException::class, IllegalStateException::class)
-    private fun readStickers(reader: JsonReader): List<Sticker?> {
+    private fun readStickers(reader: JsonReader): List<Sticker> {
         reader.beginArray()
-        val stickerList: MutableList<Sticker?> = ArrayList()
+        val stickerList: MutableList<Sticker> = ArrayList()
         while (reader.hasNext()) {
             reader.beginObject()
             var imageFile: String? = null

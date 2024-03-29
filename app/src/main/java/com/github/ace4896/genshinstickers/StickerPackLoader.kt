@@ -39,13 +39,13 @@ internal object StickerPackLoader {
         check(stickerPackList.isNotEmpty()) { "There should be at least one sticker pack in the app" }
         for (stickerPack in stickerPackList) {
             val stickers = getStickersForPack(context, stickerPack)
-            stickerPack.setStickers(stickers)
+            stickerPack.stickers = stickers
             StickerPackValidator.verifyStickerPackValidity(context, stickerPack)
         }
         return stickerPackList
     }
 
-    private fun getStickersForPack(context: Context, stickerPack: StickerPack): List<Sticker?> {
+    private fun getStickersForPack(context: Context, stickerPack: StickerPack): List<Sticker> {
         val stickers =
             fetchFromContentProviderForStickers(stickerPack.identifier, context.contentResolver)
         for (sticker in stickers) {
@@ -114,8 +114,8 @@ internal object StickerPackLoader {
                 avoidCache,
                 animatedStickerPack
             )
-            stickerPack.setAndroidPlayStoreLink(androidPlayStoreLink)
-            stickerPack.setIosAppStoreLink(iosAppLink)
+            stickerPack.androidPlayStoreLink = androidPlayStoreLink
+            stickerPack.iosAppStoreLink = iosAppLink
             stickerPackList.add(stickerPack)
         } while (cursor.moveToNext())
         return stickerPackList
@@ -123,14 +123,14 @@ internal object StickerPackLoader {
 
     private fun fetchFromContentProviderForStickers(
         identifier: String?, contentResolver: ContentResolver
-    ): List<Sticker?> {
+    ): List<Sticker> {
         val uri = getStickerListUri(identifier)
         val projection = arrayOf(
             StickerContentProvider.STICKER_FILE_NAME_IN_QUERY,
             StickerContentProvider.STICKER_FILE_EMOJI_IN_QUERY
         )
         val cursor = contentResolver.query(uri, projection, null, null, null)
-        val stickers: MutableList<Sticker?> = ArrayList()
+        val stickers: MutableList<Sticker> = ArrayList()
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
             do {
