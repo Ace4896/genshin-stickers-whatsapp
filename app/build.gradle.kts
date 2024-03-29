@@ -16,47 +16,54 @@ android {
         versionName = "1.0"
 
         // Setup content provider authority in manifest and BuildConfig
-        def contentProviderAuthority = applicationId + ".stickercontentprovider"
-        manifestPlaceholders = [contentProviderAuthority: contentProviderAuthority]
-        buildConfigField("String", "CONTENT_PROVIDER_AUTHORITY", "\"${contentProviderAuthority}\"")
+        val contentProviderAuthority = "$applicationId.stickercontentprovider"
+        manifestPlaceholders["contentProviderAuthority"] = contentProviderAuthority
+        buildConfigField("String", "CONTENT_PROVIDER_AUTHORITY", "\"$contentProviderAuthority\"")
     }
 
     buildTypes {
         debug {
-            minifyEnabled = false
-            shrinkResources = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
         release {
-            minifyEnabled = true
-            shrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
     compileOptions {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
         jvmTarget = "1.8"
     }
 
-    packagingOptions {
+    packaging {
         jniLibs {
-            excludes += ["lib/*/libnative-imagetranscoder.so", "lib/*/libnative-filters.so"]
+            excludes += arrayOf("lib/*/libnative-imagetranscoder.so", "lib/*/libnative-filters.so")
         }
     }
 
     // Compression of webp files during build causes problems with FileDescriptor in ContentProvider
     androidResources {
-        noCompress += ["webp"]
+        noCompress += arrayOf("webp")
     }
 }
 
 dependencies {
-    implementation(fileTree(include: ["*.jar"], dir: "libs"))
+    implementation(fileTree("libs").matching { include("*.jar") })
+
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
