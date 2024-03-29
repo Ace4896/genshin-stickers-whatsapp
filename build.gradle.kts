@@ -5,6 +5,6 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.parcelize) apply(false)
 }
 
-tasks.register("clean", Delete) {
+tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }

@@ -20,4 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
+rootProject.name = "Genshin Impact Stickers"
 include(":app")
