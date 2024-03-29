@@ -20,6 +20,6 @@ fresco-webpsupport = { module = "com.facebook.fresco:webpsupport", version.ref =
 google-android-material = { module = "com.google.android.material:material", version.ref = "material" }
 
 [plugins]
-#android-application = { module = "com.android.application", version.ref = "agp" }
-#jetbrains-kotlin-android = { module = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-#jetbrains-kotlin-parcelize = { module = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrains-kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
