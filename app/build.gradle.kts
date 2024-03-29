@@ -21,6 +21,10 @@ android {
         buildConfigField("String", "CONTENT_PROVIDER_AUTHORITY", "\"$contentProviderAuthority\"")
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
         debug {
             isMinifyEnabled = false
