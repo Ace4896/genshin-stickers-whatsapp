@@ -2239,25 +2239,25 @@
           ]
         },
         {
-          "image_file": "Icon_Emoji_Paimon's_Paintings_21_Yaoyao_5.webp",
+          "image_file": "Icon_Emoji_Paimon's_Paintings_21_Yuegui_1.webp",
           "emojis": [
             "\ud83d\udc4b"
           ]
         },
         {
-          "image_file": "Icon_Emoji_Paimon's_Paintings_21_Yaoyao_6.webp",
+          "image_file": "Icon_Emoji_Paimon's_Paintings_21_Yuegui_2.webp",
           "emojis": [
             "\ud83d\udc4b"
           ]
         },
         {
-          "image_file": "Icon_Emoji_Paimon's_Paintings_21_Yaoyao_7.webp",
+          "image_file": "Icon_Emoji_Paimon's_Paintings_21_Yuegui_3.webp",
           "emojis": [
             "\ud83d\udc4b"
           ]
         },
         {
-          "image_file": "Icon_Emoji_Paimon's_Paintings_21_Yaoyao_8.webp",
+          "image_file": "Icon_Emoji_Paimon's_Paintings_21_Yuegui_4.webp",
           "emojis": [
             "\ud83d\udc4b"
           ]
@@ -3075,7 +3075,7 @@
           ]
         },
         {
-          "image_file": "Icon_Emoji_Paimon's_Paintings_28_The_Knave_1.webp",
+          "image_file": "Icon_Emoji_Paimon's_Paintings_28_Arlecchino_1.webp",
           "emojis": [
             "\ud83d\udc4b"
           ]
@@ -3406,6 +3406,226 @@
         },
         {
           "image_file": "Icon_Emoji_Paimon's_Paintings_31_Diluc_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        }
+      ]
+    },
+    {
+      "identifier": "32",
+      "name": "Genshin Impact (Set 32)",
+      "publisher": "Ace4896",
+      "tray_image_file": "tray.webp",
+      "image_data_version": "1",
+      "avoid_cache": false,
+      "publisher_email": "",
+      "publisher_website": "",
+      "privacy_policy_website": "",
+      "license_agreement_website": "",
+      "stickers": [
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Arlecchino_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Arlecchino_2.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Arlecchino_3.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Arlecchino_4.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Arlecchino_5.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Lyney_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Freminet_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Lynette_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Cyno_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Cyno_2.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Tighnari_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Gorou_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Paimon_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Arataki_Itto_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Arataki_Itto_2.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_32_Kuki_Shinobu_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        }
+      ]
+    },
+    {
+      "identifier": "33",
+      "name": "Genshin Impact (Set 33)",
+      "publisher": "Ace4896",
+      "tray_image_file": "tray.webp",
+      "image_data_version": "1",
+      "avoid_cache": false,
+      "publisher_email": "",
+      "publisher_website": "",
+      "privacy_policy_website": "",
+      "license_agreement_website": "",
+      "stickers": [
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Clorinde_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Clorinde_2.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Clorinde_3.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Clorinde_4.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Sigewinne_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Sigewinne_2.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Sigewinne_3.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Sigewinne_4.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Sethos_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Sethos_2.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Sethos_3.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Sethos_4.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Dainsleif_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Dainsleif_2.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Wolfy_1.webp",
+          "emojis": [
+            "\ud83d\udc4b"
+          ]
+        },
+        {
+          "image_file": "Icon_Emoji_Paimon's_Paintings_33_Wolfy_2.webp",
           "emojis": [
             "\ud83d\udc4b"
           ]
