@@ -13,7 +13,7 @@ First, setup a virtual environment:
 - Create the virtual environment: `python -m venv .venv`
 - Activate it:
   - Bash: `source ./.venv/bin/activate`
-  - PowerShell: `.\.venv\bin/Activate.ps1`
+  - PowerShell: `.\.venv\Script\Activate.ps1`
 - Install the dependencies into the virtual environment: `pip install -r requirements.txt`
 
 The script can be used as follows:
